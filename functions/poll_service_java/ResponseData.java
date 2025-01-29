@@ -102,7 +102,7 @@ public class ResponseData {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return result;
+		return resul;
 	}
 
 }
