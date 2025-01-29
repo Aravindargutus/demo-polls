@@ -52,7 +52,7 @@ public class Service implements CatalystAdvancedIOHandler {
 				JSONParser jsonParser = new JSONParser();
 				JSONObject requestParameters = (JSONObject) jsonParser
 						.parse(new InputStreamReader(requestBody, "UTF-8"));
-				String user_id = requestParameters.get("user_id").toString();
+				String id = requestParameters.get("user_id").toString();
 				Integer page = Integer.parseInt(requestParameters.get("page").toString());
 
 				responseData = getAllPolls(user_id, page);
