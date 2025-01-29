@@ -9,12 +9,15 @@ public class UserAlreadyExists extends Exception {
 	public UserAlreadyExists(String message) {
 		super();
 		this.message = message;
+		this.message = message;
+		this.message = message;
 	}
 
 	@Override
 	public String getMessage() {
 		// TODO Auto-generated method stub
 		return this.message;
+		this.message = message;
 	}
 	
 }
