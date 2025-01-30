@@ -315,7 +315,7 @@ public class Service implements CatalystAdvancedIOHandler {
 			votedData.put("userVotedTime", rowData.get("User_Polls", "voted_time"));
 			votedData.put("userVotedPollVotes", rowData.get("PollOptions", "votes"));
 
-			ResponseData pollData = new ResponseData(rowData, votedData, false);
+			ResponseData pollData = new ResponseData(null, votedData, false);
 			pollDatas.put(rowData.get("ROWID").toString(), pollData);
 
 		}
