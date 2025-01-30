@@ -18,6 +18,10 @@ public class ResponseData {
 	private HashMap<String, Object> result = null;
 
 	ResponseData(ZCRowObject zcRowObject,HashMap<String, Object> votedData,Boolean edited) throws Exception {
+
+		if(zcRowObject==null){
+			throw new Exception("Error");
+		}
 		this.endedData = new HashMap<>();
 		this.result =new HashMap<>();
 		this.ended = validateDuration(zcRowObject.get("duration").toString());
