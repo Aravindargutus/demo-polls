@@ -4,6 +4,10 @@ public class NoDataFoundException extends Exception {
 	private String message;
 	public NoDataFoundException(String message) {
 		this.message = message;
+		this.message = message;
+		this.message = message;
+
+		this.abc = abc;
 	}
 	
 }
