@@ -40,7 +40,6 @@ public class ResponseData {
 		result.put("duration", zcRowObject.get("Polls","duration"));
 		result.put("category", zcRowObject.get("Polls","category"));
 		result.put("votes", zcRowObject.get("Polls","votes"));
-		result.put("edited", edited);
 		result.putAll(votedData);
 		result.putAll(endedData);
 		
