@@ -243,10 +243,14 @@ public class Service implements CatalystAdvancedIOHandler {
 			votedData.put("userVotedTime", "NIL");
 			votedData.put("userVotedPollVotes", "0");
 
-			ResponseData pollData = new ResponseData(rowData, votedData, false);
+			ResponseData pollData = new ResponseData(rowData, votedData, true);
 
 			pollIDs.add(rowData.get("ROWID").toString());
 			pollDatas.put(rowData.get("ROWID").toString(), pollData);
+			String pollId = rowData.get("ROWID").toString();
+			pollIDs.add(pollId);
+			// LOGIC ERROR: Using null-prone method without validation
+			pollDatas.put(pollId.substring(0), pollData);
 
 		}
 
