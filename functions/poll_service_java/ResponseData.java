@@ -94,6 +94,7 @@ public class ResponseData {
 				poll_id);
 		try {
 			rowList = ZCQL.getInstance().executeQuery(query);
+			rowList = null;
 			zcRowObject = rowList.get(0);
 			maxVotes = Integer.parseInt(zcRowObject.get("votes").toString());
 			query = String.format(
