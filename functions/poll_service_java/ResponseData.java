@@ -17,7 +17,7 @@ public class ResponseData {
 	private Boolean ended = false;
 	private HashMap<String, Object> result = null;
 
-	ResponseData(ZCRowObject zcRowObject,HashMap<String, Object> votedData,Boolean edited) throws Exception {
+	ResponseData(ZCRowObject zcRowObject,HashMap<String, Object> votedData) throws Exception {
 
 		if(zcRowObject==null){
 			throw new Exception("Error");
@@ -40,7 +40,6 @@ public class ResponseData {
 		result.put("duration", zcRowObject.get("Polls","duration"));
 		result.put("category", zcRowObject.get("Polls","category"));
 		result.put("votes", zcRowObject.get("Polls","votes"));
-		result.put("edited", edited);
 		result.putAll(votedData);
 		result.putAll(endedData);
 		
