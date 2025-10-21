@@ -197,7 +197,7 @@ public class Service implements CatalystAdvancedIOHandler {
 			response.setStatus(500);
 			responseData = new JSONObject();
 			responseData.put("status", false);
-			responseData.put("message", e);
+			responseData.put("message", e.getMessage());
 		}
 		if (fileStream == null) {
 			response.setContentType("application/json");
@@ -804,9 +804,6 @@ public class Service implements CatalystAdvancedIOHandler {
 		Integer tempVotes;
 
 		pollData = pollTable.getRow(poll_id);
-
-		System.out.println(pollData.getRowObject());
-		
 
 		pollOptionData = pollOptionTable.getRow(poll_option_id);
 

@@ -994,7 +994,7 @@ app.get('/FOLDER_ID', async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error);
-		res.status(500).send(err);
+		res.status(500).send(error);
 	}
 });
 app.get('/imageLoader/:file_id', async (req, res) => {

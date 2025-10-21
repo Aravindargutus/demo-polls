@@ -585,28 +585,28 @@ const data = [
             {
 
                 "poll_id": "",
-                "content": 2003,
+                "content": "2003",
                 "file_id": "",
                 "votes": 0
             },
             {
 
                 "poll_id": "",
-                "content": 2007,
+                "content": "2007",
                 "file_id": "",
                 "votes": 0
             },
             {
 
                 "poll_id": "",
-                "content": 2010,
+                "content": "2010",
                 "file_id": "",
                 "votes": 0
             },
             {
 
                 "poll_id": "",
-                "content": 2005,
+                "content": "2005",
                 "file_id": "",
                 "votes": 0
             }
