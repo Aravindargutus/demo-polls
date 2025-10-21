@@ -208,6 +208,8 @@ public class Service implements CatalystAdvancedIOHandler {
 		}
 	}
 
+	// WARNING: This method uses string concatenation for SQL queries which is vulnerable to SQL injection.
+	// TODO: Refactor to use parameterized queries for security.
 	private static JSONObject getAllPolls(String user_id, Integer page) throws Exception {
 
 		HashMap<String, ResponseData> pollDatas = new HashMap<>();
@@ -277,6 +279,8 @@ public class Service implements CatalystAdvancedIOHandler {
 
 	}
 
+	// WARNING: SQL injection vulnerability - uses string concatenation with user_id
+	// TODO: Refactor to use parameterized queries
 	private static JSONObject getMyVotesOrCompletedPolls(String user_id, Integer page) throws Exception {
 
 		HashMap<String, ResponseData> pollDatas = new HashMap<>();
@@ -329,6 +333,8 @@ public class Service implements CatalystAdvancedIOHandler {
 
 	}
 
+	// WARNING: SQL injection vulnerability - uses string concatenation with user_id
+	// TODO: Refactor to use parameterized queries
 	private static JSONObject getMyPolls(String user_id, Integer page) throws Exception {
 
 		HashMap<String, ResponseData> pollDatas = new HashMap<>();
@@ -470,6 +476,8 @@ public class Service implements CatalystAdvancedIOHandler {
 
 	}
 
+	// WARNING: SQL injection vulnerability - uses string concatenation with poll_id
+	// TODO: Refactor to use parameterized queries
 	private static JSONObject deletePoll(String poll_id) throws Exception {
 		HashMap<String, Object> result = new HashMap<String, Object>();
 		ArrayList<Long> fileIDS = new ArrayList<>();
@@ -482,8 +490,9 @@ public class Service implements CatalystAdvancedIOHandler {
 		ZCTable table = obj.getTable("Polls");
 		ZCRowObject row = table.getRow(Long.parseLong(poll_id));
 
-		if (!row.get("file_id").toString().isEmpty()) {
-			fileIDS.add(Long.parseLong(row.get("file_id").toString()));
+		Object fileId = row.get("file_id");
+		if (fileId != null && !fileId.toString().isEmpty()) {
+			fileIDS.add(Long.parseLong(fileId.toString()));
 		}
 
 		query = String.format("SELECT PollOptions.file_id from PollOptions where PollOptions.poll_id = '%s'", poll_id);
@@ -491,8 +500,9 @@ public class Service implements CatalystAdvancedIOHandler {
 		rowList = ZCQL.getInstance().executeQuery(query);
 
 		for (ZCRowObject rowData : rowList) {
-			if (!rowData.get("file_id").toString().isEmpty()) {
-				fileIDS.add(Long.parseLong(rowData.get("file_id").toString()));
+			Object optionFileId = rowData.get("file_id");
+			if (optionFileId != null && !optionFileId.toString().isEmpty()) {
+				fileIDS.add(Long.parseLong(optionFileId.toString()));
 			}
 		}
 
@@ -560,7 +570,8 @@ public class Service implements CatalystAdvancedIOHandler {
 		HashMap<String, Object> result = new HashMap<>();
 		List<ZCUserDetail> details = ZCUser.getInstance().getAllUser();
 		for (ZCUserDetail zcUserDetail : details) {
-			if (zcUserDetail.getEmailId().toString().equals(email_id)) {
+			Object userEmail = zcUserDetail.getEmailId();
+			if (userEmail != null && userEmail.toString().equals(email_id)) {
 				throw new UserAlreadyExists("User Already Exits");
 			}
 		}
@@ -599,6 +610,8 @@ public class Service implements CatalystAdvancedIOHandler {
 		return ISTTime;
 	}
 
+	// WARNING: SQL injection vulnerability - uses string concatenation with poll_id
+	// TODO: Refactor to use parameterized queries
 	private static JSONObject getPollDetails(String poll_id) throws Exception {
 		String query = "";
 		ArrayList<ZCRowObject> rowList = null;
@@ -841,6 +854,29 @@ public class Service implements CatalystAdvancedIOHandler {
 		}
 
 		return FOLDER_ID;
+	}
+
+	/**
+	 * Validates and sanitizes string input to prevent basic injection attacks.
+	 * Note: This is a basic validation. For production use, consider using
+	 * parameterized queries instead of string concatenation in SQL queries.
+	 *
+	 * @param input The input string to validate
+	 * @param fieldName The name of the field for error messages
+	 * @return The sanitized input
+	 * @throws Exception if input is null or empty
+	 */
+	private static String validateInput(String input, String fieldName) throws Exception {
+		if (input == null || input.trim().isEmpty()) {
+			throw new Exception(fieldName + " cannot be null or empty");
+		}
+		// Remove any potentially dangerous characters for basic protection
+		// WARNING: This does NOT fully prevent SQL injection. Use parameterized queries.
+		String sanitized = input.trim();
+		if (sanitized.contains("'") || sanitized.contains("\"") || sanitized.contains(";") || sanitized.contains("--")) {
+			throw new Exception(fieldName + " contains invalid characters");
+		}
+		return sanitized;
 	}
 
 }

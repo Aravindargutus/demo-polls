@@ -20,11 +20,16 @@ public class ResponseData {
 	ResponseData(ZCRowObject zcRowObject,HashMap<String, Object> votedData,Boolean edited) throws Exception {
 
 		if(zcRowObject==null){
-			throw new Exception("Error");
+			throw new Exception("Error: zcRowObject cannot be null");
 		}
 		this.endedData = new HashMap<>();
 		this.result =new HashMap<>();
-		this.ended = validateDuration(zcRowObject.get("duration").toString());
+
+		Object duration = zcRowObject.get("duration");
+		if (duration == null) {
+			throw new Exception("Error: duration cannot be null");
+		}
+		this.ended = validateDuration(duration.toString());
 
 		endedData.put("ended", ended);
 		endedData.put("maxVotedPoll", "");
@@ -84,25 +89,39 @@ public class ResponseData {
 		return dateFormat.parse(ISTTime);
 	}
 
+	// WARNING: SQL injection vulnerability - uses string concatenation with poll_id
+	// TODO: Refactor to use parameterized queries for security
 	private static HashMap<String, Object> getMaxximumPolled(String poll_id) {
 		HashMap<String, Object> result = new HashMap<>();
 		ArrayList<ZCRowObject> rowList = null;
 		ZCRowObject zcRowObject = null;
 		Integer maxVotes = 0;
 
+		// WARNING: poll_id is concatenated directly into SQL query
 		String query = String.format("select max(PollOptions.votes) from PollOptions where PollOptions.poll_id = '%s';",
 				poll_id);
 		try {
 			rowList = ZCQL.getInstance().executeQuery(query);
+			if (rowList == null || rowList.isEmpty()) {
+				return result;
+			}
 			zcRowObject = rowList.get(0);
-			maxVotes = Integer.parseInt(zcRowObject.get("votes").toString());
+			Object votes = zcRowObject.get("votes");
+			if (votes == null) {
+				return result;
+			}
+			maxVotes = Integer.parseInt(votes.toString());
 			query = String.format(
 					"select PollOptions.content,PollOptions.votes from PollOptions where PollOptions.poll_id = '%s' and PollOptions.votes  = %d",
 					poll_id, maxVotes);
 			rowList = ZCQL.getInstance().executeQuery(query);
-			zcRowObject = rowList.get(0);
-			result.put("maxVotedPoll", zcRowObject.get("content"));
-			result.put("maxVotedPollVotes", zcRowObject.get("votes"));
+			if (rowList != null && !rowList.isEmpty()) {
+				zcRowObject = rowList.get(0);
+				Object content = zcRowObject.get("content");
+				Object votesResult = zcRowObject.get("votes");
+				result.put("maxVotedPoll", content != null ? content : "");
+				result.put("maxVotedPollVotes", votesResult != null ? votesResult : 0);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
