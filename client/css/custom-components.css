@@ -8,9 +8,32 @@ button:focus{
 
 .pollapp-button {
   font-size: 16px;
-  padding: 8px 25px;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  padding: 12px 30px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.3px;
+}
+
+.pollapp-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.pollapp-button:hover::before {
+  width: 300px;
+  height: 300px;
 }
 
 a:hover {
@@ -18,40 +41,59 @@ a:hover {
 }
 
 .button-primary {
-  background-color: #6267f5;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.button-primary:hover {
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+  transform: translateY(-2px);
 }
 
 .button-secondary {
   background-color: #f8f8f8;
   color: #838383;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 .button-secondary:hover {
   color: #838383;
+  background-color: #efefef;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .button-primary-hollow {
   background-color: #ffffff;
-  color: #6267f5;
-  border-color: #6267f5;
+  color: #667eea;
+  border-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
 }
 .button-primary-hollow:hover {
-  color: #6267f5;
+  color: #ffffff;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
 }
 
 .button-primary-hollow:focus {
   background-color: #ffffff;
-  color: #6267f5;
-  border: 1px solid #6267f5;
+  color: #667eea;
+  border: 2px solid #667eea;
 }
 
 .button-primary-white {
   background-color: #fff;
-  color: #6267f5;
+  color: #667eea;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .button-primary-white:hover {
-  color: #6267f5;
+  color: #667eea;
+  background-color: #f8f9ff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .button-danger {
@@ -62,6 +104,10 @@ a:hover {
 a.button-primary:hover {
   color: #fff;
   text-decoration: none;
+}
+
+.pollapp-button:active {
+  transform: translateY(0);
 }
 
 /*Toggle Switch*/
@@ -136,12 +182,20 @@ a.button-primary:hover {
 .input-group input,
 .input-group select {
   width: 100%;
-  border: 1px solid #e2e2e2;
-  border-radius: 2px;
+  border: 2px solid #e2e2e2;
+  border-radius: 10px;
   color: #000000;
   font-size: 16px;
-  padding: 15px;
+  padding: 15px 18px;
   background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none;
 }
 
 .input-group input::placeholder {
@@ -174,6 +228,16 @@ a.button-primary:hover {
   position: relative;
   cursor: pointer;
   display: block;
+  padding: 15px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.poll-answer-wrap:hover {
+  background-color: #f8f9ff;
+  border-color: rgba(102, 126, 234, 0.2);
+  transform: translateX(4px);
 }
 
 .poll-answer-wrap input {
@@ -223,7 +287,8 @@ a.button-primary:hover {
   display: block;
   color: #242424;
   font-size: 20px;
-  transition: font-weight 200ms ease-in;
+  transition: all 200ms ease-in;
+  line-height: 1.5;
 }
 
 .poll-answer-image-holder {
