@@ -42,7 +42,7 @@ public class Service implements CatalystAdvancedIOHandler {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public void runner(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void runner(ServletRequest request, HttpServletResponse response) throws Exception {
 		try {
 			String url = request.getRequestURI();
 			String method = request.getMethod();
