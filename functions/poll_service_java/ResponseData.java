@@ -17,7 +17,7 @@ public class ResponseData {
 	private Boolean ended = false;
 	private HashMap<String, Object> result = null;
 
-	ResponseData(ZCRowObject zcRowObject,HashMap<String, Object> votedData,Boolean edited) throws Exception {
+	ResponseData(ZCRowObject zcRowObject,HashMap<String, Object> votedData) throws Exception {
 
 		if(zcRowObject==null){
 			throw new Exception("Error");
